@@ -10,11 +10,11 @@ import ResturantDetailPage from './pages/ResturantDetailPage';
 
 function App() {
   let [resturantLoading, setResturantLoading] = useState(false)
-  let hotelLocations = JSON.parse(localStorage.getItem("hotellocations"))
-  let data = JSON.parse(localStorage.getItem("hotels")).data.data
+  // let hotelLocations = JSON.parse(localStorage.getItem("hotellocations"))
+  // let data = JSON.parse(localStorage.getItem("hotels")).data.data
   let [coordinates, setCoordinates] = useState({})
   let [resturants, setResturants] = useState([])
-  let [hotelId, setHotelId] = useState(hotelLocations.data[0].geoId)
+  let [hotelId, setHotelId] = useState()
   let [hotels, setHotels] = useState([])
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((coords) => {
