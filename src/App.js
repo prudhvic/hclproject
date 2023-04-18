@@ -1,24 +1,58 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
+import { fetchRestaurants, getData, getHotels, getLocation } from './api';
 import './App.css';
+import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider } from 'react-router-dom';
+import HotelsPage from './pages/Hotels';
+import HotelDetails from './pages/HotelDetails';
+import Home from './components/Home';
+import RestaurantPage from './pages/RestaurantPage';
+import ResturantDetailPage from './pages/ResturantDetailPage';
 
 function App() {
+  let hotelLocations = JSON.parse(localStorage.getItem("hotellocations"))
+  let data = JSON.parse(localStorage.getItem("hotels")).data.data
+  let [coordinates, setCoordinates] = useState({})
+  let [resturants, setResturants] = useState([])
+  let [hotelId, setHotelId] = useState(hotelLocations.data[0].geoId)
+  let [hotels, setHotels] = useState([])
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((coords) => {
+      setCoordinates({ lat: coords.coords.latitude, long: coords.coords.longitude })
+    })
+  }, [])
+  let fetchLocationResults = async (query) => {
+    let locId;
+    let data = await getData(query)
+    console.log(data)
+    if (data) {
+      locId = data?.data[0].locationId
+    }
+    console.log(locId)
+    let resturantsData = await fetchRestaurants(locId)
+    let hoteslData = await getHotels(locId)
+    console.log(hoteslData)
+    if (hoteslData && resturantsData) {
+      setHotels(hoteslData?.data)
+      setResturants(resturantsData?.data)
+    }
+  }
+  useEffect(() => {
+
+    getLocation(coordinates).then((res) => {
+      console.log(res.city)
+      fetchLocationResults(res.city)
+    })
+  }, [])
+  let router = createBrowserRouter(createRoutesFromElements(<Route path='/' element={<Home fetchLocationResults={fetchLocationResults} />}>
+    <Route index element={<HotelsPage hotels={hotels} />} />
+    <Route path='/hotels/:id' element={<HotelDetails />} />
+    <Route path='/resturant' element={<RestaurantPage resturants={resturants} />} />
+    <Route path='/resturants/:id' element={<ResturantDetailPage />} />
+  </Route>))
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RouterProvider router={router} />
+
   );
 }
 
