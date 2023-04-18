@@ -613,14 +613,13 @@ let obj = {
 }
 const HotelDetails = () => {
   let params = useParams()
-  let data = JSON.parse(localStorage.getItem("hotel")).data
+
   let [hotel, setHotel] = useState({})
   useEffect(() => {
     let fetchDetails = async () => {
       let res = await fetchHotelById(params?.id)
       console.log(res.data)
       setHotel(res.data)
-      localStorage.setItem("hotel", JSON.stringify(res))
     }
     fetchDetails()
   }, [params.id])
