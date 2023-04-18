@@ -1339,9 +1339,9 @@ let obj1 =
     "isPremium": false,
     "isStoryboardPublished": false
 }
-const RestaurantPage = ({ resturants }) => {
+const RestaurantPage = ({ resturants, resturantLoading }) => {
     console.log(resturants)
-    if (!resturants.data) {
+    if (!resturants.data || resturantLoading) {
         return <Loader />
     }
     return (

@@ -9,6 +9,7 @@ import RestaurantPage from './pages/RestaurantPage';
 import ResturantDetailPage from './pages/ResturantDetailPage';
 
 function App() {
+  let [resturantLoading, setResturantLoading] = useState(false)
   let hotelLocations = JSON.parse(localStorage.getItem("hotellocations"))
   let data = JSON.parse(localStorage.getItem("hotels")).data.data
   let [coordinates, setCoordinates] = useState({})
@@ -28,7 +29,9 @@ function App() {
       locId = data?.data[0].locationId
     }
     console.log(locId)
+    setResturantLoading(true)
     let resturantsData = await fetchRestaurants(locId)
+    setResturantLoading(false)
     let hoteslData = await getHotels(locId)
     console.log(hoteslData)
     if (hoteslData && resturantsData) {
@@ -46,7 +49,7 @@ function App() {
   let router = createBrowserRouter(createRoutesFromElements(<Route path='/' element={<Home fetchLocationResults={fetchLocationResults} />}>
     <Route index element={<HotelsPage hotels={hotels} />} />
     <Route path='/hotels/:id' element={<HotelDetails />} />
-    <Route path='/resturant' element={<RestaurantPage resturants={resturants} />} />
+    <Route path='/resturant' element={<RestaurantPage resturants={resturants} resturantLoading={resturantLoading} />} />
     <Route path='/resturants/:id' element={<ResturantDetailPage />} />
   </Route>))
 
