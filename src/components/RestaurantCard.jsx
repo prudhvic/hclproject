@@ -7,6 +7,7 @@ const RestaurantCard = ({ resturant }) => {
     // if (resturant.heroImgUrl) {
     //     return
     // }
+    console.log(resturant)
     return (
 
         <Link className='card' to={`/resturants/${resturant?.restaurantsId}`}>

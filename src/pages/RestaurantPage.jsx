@@ -1340,13 +1340,13 @@ let obj1 =
     "isStoryboardPublished": false
 }
 const RestaurantPage = ({ resturants, resturantLoading }) => {
-    console.log(resturants)
-    if (!resturants.data || resturantLoading) {
-        return <Loader />
-    }
+    // console.log(resturants)
+    // if (!resturants.data || resturantLoading) {
+    //     return <Loader />
+    // }
     return (
         <div className='grid-resturants'>
-            {resturants?.data?.map((resturant) => (
+            {obj.data.data?.map((resturant) => (
                 <RestaurantCard resturant={resturant} />
             ))}
         </div>

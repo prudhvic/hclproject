@@ -525,31 +525,31 @@ let resturant = {
 }
 
 const ResturantDetailPage = () => {
-    let params = useParams()
-    console.log(params.id)
-    let [loading, setLoading] = useState(true)
-    let [restaurant, setResturant] = useState({})
-    let fetchDetails = async () => {
-        setLoading(true)
-        let res = await fetchRestaurantById(params.id)
-        // console.log(res)
-        console.log(res.data)
-        setResturant(res)
-        setLoading(false)
+    // let params = useParams()
+    // console.log(params.id)
+    // let [loading, setLoading] = useState(true)
+    // let [restaurant, setResturant] = useState({})
+    // let fetchDetails = async () => {
+    //     setLoading(true)
+    //     let res = await fetchRestaurantById(params.id)
+    //     // console.log(res)
+    //     console.log(res.data)
+    //     setResturant(res)
+    //     setLoading(false)
 
-    }
-    useEffect(() => {
+    // }
+    // useEffect(() => {
 
-        fetchDetails()
+    //     fetchDetails()
 
-    }, [params.id])
-    console.log(restaurant)
-    if (loading) {
-        return <Loader />
-    }
+    // }, [params.id])
+    // console.log(restaurant)
+    // if (loading) {
+    //     return <Loader />
+    // }
     return (
         <>
-            {restaurant?.data?.location && <ResturantDetail resturant={restaurant} />}
+            {resturant?.data?.location && <ResturantDetail resturant={resturant} />}
         </>
     )
 }
